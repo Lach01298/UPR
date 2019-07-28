@@ -1,0 +1,403 @@
+SNACKS_RESOURCE_INTRO
+{
+	name = Health
+	title = Health!
+	description = Health represents kerbals both physical and mental health. Many things cause kerbals to lose health: mirogravity, stravation, dehydration, loneliness, confinment, being sick and accidents. Kerbals can regain health through entertaiment and medicine. But be warned medicine is notoriously expensive! 
+}
+
+SNACKS_ROSTER_RESOURCE
+{
+	resourceName = Health
+	displayName = Health
+
+	showInSnapshot = true
+	statusFormat = <<percent>> (<<amount>>/<<maxAmount>> days)
+	
+	amount = 100
+	maxAmount = 100
+	experienceBonusAmount = 0
+	experienceBonusMaxAmount = 10
+}
+
+SKILL_LOSS_CONDITION
+{
+	name = Unwell
+}
+SKILL_LOSS_CONDITION
+{
+	name = Recovering
+}
+SKILL_LOSS_CONDITION
+{
+	name = InTreatment
+}
+
+//Microgravity
+SNACKS_EVENT
+{
+	name = microgravityLevel1
+	category = categoryPostProcessCycle
+	affectedKerbals = affectsAllAssigned
+	daysBetweenChecks = 1
+
+	PRECONDITION
+	{
+		name = CheckGravityLevel
+		checkType = checkLesserOrEqual
+		valueToCheck = 0.5
+	}
+	OUTCOME
+	{
+		name  = ConsumeResource
+		resourceName = Health
+		amount = 0.1
+	}
+}
+
+SNACKS_EVENT
+{
+	name = microgravityLevel2
+	category = categoryPostProcessCycle
+	affectedKerbals = affectsAllAssigned
+	daysBetweenChecks = 1
+
+	PRECONDITION
+	{
+		name = CheckGravityLevel
+		checkType = checkLesserOrEqual
+		valueToCheck = 0.1
+	}
+	OUTCOME
+	{
+		name  = ConsumeResource
+		resourceName = Health
+		amount = 0.2
+	}
+}
+
+//hunger
+SNACKS_EVENT
+{
+	name = hunger
+	eventCategory = categoryPostProcessCycle
+	kerbalsAffected = affectsAllAssigned
+
+	PRECONDITION 
+	{
+		name = CheckProcessorResult
+		type = resultConsumptionFailure
+		processorName = Snacks!
+		resourceName = Snacks
+		cyclesRequired = 1
+	}
+	OUTCOME
+	{
+		name = ConsumeResource
+		resourceName = Health
+		amount = 1
+	}
+}
+
+//loneliness
+SNACKS_EVENT
+{
+	name = loneliness
+	category = categoryPostProcessCycle
+	affectedKerbals = affectsAllAssigned
+	daysBetweenChecks = 1
+
+	PRECONDITION
+	{
+		name = CheckCrewCount
+		valueToCheck = 1
+	}
+	OUTCOME
+	{
+		name  = ConsumeResource
+		resourceName = Health
+		amount = 0.2
+	}
+}
+
+//Lack of a connection to homeworld
+SNACKS_EVENT
+{
+	name = noSignal
+	category = categoryPostProcessCycle
+	affectedKerbals = affectsAllAssigned
+	daysBetweenChecks = 1
+
+	PRECONDITION
+	{
+		name = CheckHomeworldConnection
+		mustExist = false
+	}	
+	OUTCOME
+	{
+		name  = ConsumeResource
+		resourceName = Health
+		amount = 0.2
+	}
+}
+
+//Kerbals can catch a cold!
+SNACKS_ROSTER_RESOURCE
+{
+	resourceName = DaysSick
+
+	displayName = Cold Recovery
+
+//	showInSnapshot = true
+	statusFormat = <<amount>> days
+
+	amount = 0
+	maxAmount = 100
+}
+
+SNACKS_EVENT
+{
+	name = catchACold
+	eventCategory = categoryPostProcessCycle
+	kerbalsAffected = affectsRandomAssigned
+	daysBetweenChecks = 1
+	playerMessage = <<KerbalName>> caught a cold!
+
+	PRECONDITION 
+	{
+		name = CheckRandomChance
+		minDieRoll = 1
+		maxDieRoll = 1000
+		targetNumber = 995
+	}
+
+	OUTCOME 
+	{
+		name = ProduceResource
+		resourceName = DaysSick
+		randomMin = 1
+		RandomMax = 12
+	}
+
+	OUTCOME 
+	{
+		name = SetCondition
+		conditionSummary = Sick
+	}
+}
+
+SNACKS_EVENT
+{
+	name = cold
+	eventCategory = categoryPostProcessCycle
+	kerbalsAffected = affectsAllAssigned
+	daysBetweenChecks = 1
+
+	PRECONDITION 
+	{
+		name = CheckCondition
+		conditionSummary = Sick
+	}
+
+	OUTCOME 
+	{
+		name = ConsumeResource
+		resourceName = Health
+		amount = 1
+	}
+}
+
+SNACKS_EVENT
+{
+	name = infectCrewMates
+	eventCategory = categoryPostProcessCycle
+	kerbalsAffected = affectsAllAssigned
+	daysBetweenChecks = 1
+
+	PRECONDITION 
+	{
+		name = CheckCondition
+		conditionSummary = Sick
+	}
+
+	PRECONDITION 
+	{
+		name = CheckRandomChance
+		minDieRoll = 1
+		maxDieRoll = 100
+		targetNumber = 75
+	}
+
+	OUTCOME 
+	{
+		name = ProduceResource
+		//Select a random crew member to apply the outcome to.
+		selectRandomCrew = true
+		playerMessage = <<KerbalName>> caught a cold!
+		resourceName = DaysSick
+		randomMin = 1
+		RandomMax = 12
+
+		//Nested outcomes are allowed and are applied to the parent outcome’s vessel or kerbal.
+		OUTCOME 
+		{
+			name = SetCondition
+			conditionSummary = Sick
+		}
+	}
+}
+
+SNACKS_EVENT
+{
+	name = immuneSystemRecovery
+	eventCategory = categoryPostProcessCycle
+	kerbalsAffected = affectsAllAssigned
+	daysBetweenChecks = 1
+
+	PRECONDITION 
+	{
+		name = CheckCondition
+		conditionSummary = Sick
+	}
+
+	OUTCOME 
+	{
+		name = ConsumeResource
+		resourceName = DaysSick
+		amount = 0.5
+	}
+}
+
+SNACKS_EVENT
+{
+	name = restingFromCold
+	eventCategory = categoryPostProcessCycle
+	kerbalsAffected = affectsAllAssigned
+	daysBetweenChecks = 1
+
+	PRECONDITION 
+	{
+		name = CheckCondition
+		conditionSummary = Sick
+	}
+
+	PRECONDITION 
+	{
+		name = CheckCondition
+		conditionSummary = Recovering
+	}
+
+	OUTCOME 
+	{
+		name = ConsumeResource
+		resourceName = DaysSick
+		amount = 2
+	}
+}
+
+//Kerbals back at KSC recover health
+SNACKS_EVENT
+{
+	name = kscRecovery
+	category = categoryPostProcessCycle
+	affectedKerbals = affectsAllAvailable
+	daysBetweenChecks = 1
+
+	OUTCOME
+	{
+		name  = ProduceResource
+		resourceName = Health
+		amount = 6
+	}
+
+	OUTCOME 
+	{
+		name = ConsumeResource
+		resourceName = DaysSick
+		amount = 3
+	}
+}
+
+
+//Unwell
+SNACKS_EVENT
+{
+	name = unwellKerbal
+	category = categoryPostProcessCycle
+	affectedKerbals = affectsAllAssigned
+	daysBetweenChecks = 1
+	playerMessage = <<KerbalName>> is feeling very unwell! and now can't do work
+	
+	PRECONDITION 
+	{ 
+		name = CheckResource  
+		resourceName = Health
+		checkType = checkLesserOrEqual 
+		valueToCheck = 25
+	}	
+	OUTCOME 
+	{
+		name = SetCondition
+		conditionSummary = Unwell
+	}
+}
+
+SNACKS_EVENT
+{
+	name = feeling better
+	category = categoryPostProcessCycle
+	affectedKerbals = affectsAllAvailable
+	daysBetweenChecks = 1
+	playerMessage = <<KerbalName>> is feeling Better! and now can work again
+	
+	PRECONDITION 
+	{
+		name = CheckCondition
+		conditionSummary = Unwell
+	}
+	PRECONDITION 
+	{ 
+		name = CheckResource  
+		resourceName = Health
+		checkType = checkGreaterOrEqual 
+		valueToCheck = 50
+	}	
+	OUTCOME 
+	{ 
+		name = ClearCondition 
+		conditionSummary = Unwell 
+	}
+}
+
+SNACKS_EVENT
+{
+	name = kerbalDied
+	category = categoryPostProcessCycle
+	affectedKerbals = affectsAllAssigned
+	daysBetweenChecks = 1
+	playerMessage = <<KerbalName>> died! 
+	
+	PRECONDITION 
+	{
+		name = CheckCondition
+		conditionSummary = Unwell
+	}
+	PRECONDITION 
+	{ 
+		name = CheckResource  
+		resourceName = Health
+		checkType = checkEquals 
+		valueToCheck = 0
+	}	
+	OUTCOME 
+	{ 
+		name = ClearCondition 
+		conditionSummary = Unwell 
+	}
+}
+
+
+
+
+
+
+
