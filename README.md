@@ -38,7 +38,7 @@ The design concept is for it to be a Semi-realistic easyish stock looking and ba
 - integrated tech tree
 
 ## Other Stuff
-help and suggestions are apreated and so feel free to do so
+help and suggestions are appreciated and so feel free to do so
 
 ## Developmental notes
 This seems like a lot and it is. But this started as trying to get some of my favorite ksp mods to fit seamlessly together and separately trying to make them a little bit more realistic. Then it got all lump together into what currently is UPR. Thus it really should have another name but it was separate "mods" so i just kept one name that had a short acronym: UPR
