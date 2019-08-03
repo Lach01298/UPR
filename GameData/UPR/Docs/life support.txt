@@ -1,0 +1,83 @@
+
+The Martian Stuff
+	potato 770 Cal/kg
+	62 m^2 --> 150 kg of potato in 400 days
+	1500 Cal/day  absolute minimum for person problly a fair amount for a kerbal
+	~ 2kg of potatos/day
+
+NASA stuff (Wheeler, Ray & Sager, John. (2019). Crop Production for Advanced Life Support Systems. Technical Reports.) 
+	potatoes:
+	days:418 
+	Edible Mass: 197kg  --> 0.0236 kg/(m^2*day)
+	Total mass: 271kg	--> 0.0324 kg/(m^2*day)
+	CO2 taken: 409 kg	--> 0.0489 kg/(m^2*day)
+	O2 produced: 296 kg	--> 0.0354 kg/(m^2*day)
+	area 20m^2
+
+	water: 4L/(m^2*day)							-->4kg/(m^2*day)
+	Nutrients(K,Ca,Mg):  44.7 mMol/(m^2*day)	--> assume even mix so 14.9 mMol/(m^2*day) of each
+													K 582.59 mg/(m^2*day)
+													Ca 607.62 mg/(m^2*day)
+													Mg 362.216 mg/(m^2*day)
+													total 1.55246 g/(m^2*day)
+	Acid(HNO3): 18 mMol/(m^2*day)				--> 1.134 g/(m^2*day)
+													assume fertlizer being all the mass
+													gives 2.68646 g/(m^2*day) of fertlizer
+													--> 0.00268646 unit/(m^2*24h)
+
+More NASA stuff (Jones. (2003). Design Rules for Life Support Systems)
+Human Metabolic needs:
+	In(kg/day):
+		O2 0.84
+		Drinking Water 1.62
+		Food 2.53
+		total: 4.99
+		
+	Out (kg/day):
+		CO2 1.00
+		Waste Water 1.59
+		Waste Solids 0.11
+		Respiration water 2.28
+		total: 4.98
+
+Maths:
+	Assumptions:
+		A kerbal is half the size of a human so needs about half as much
+		A kerbal needs every 24h: 
+			1.25kg of food
+			0.8kg of water
+			0.4kg of O2
+			total: 2.45kg
+		A kerbal produces every 24h:
+			1.9kg of waste Water (include Respiration water)
+			0.05kg of waste
+			0.5kg of CO2
+			total: 2.45kg
+		A kerbal day is 6h lets say a kerbal has one meal (snack) a day
+		so a snack is 0.3125kg
+		so resouces every cycle(hour):
+			0.1666666 Snacks
+			11.820330 Oxygen
+			0.0333333 Water
+			0.078772803 WasteWater
+			0.002777777 Waste
+			10.678284 CarbonDioxide
+			
+		lets assume waste is a mixture of 1 NH3,  3 C6H10O5 (cellulose monemer)
+		so burning it is
+			2(NH3) + 6(C6H10O5) +36(O2) -> N2 + 36(CO2) + 30(H2O)
+		
+		lets assume extration gives 
+		2NH3 + 6(C6H10O5) -> 2NH3 + 15CO2 + 15CH4 + 6C
+		
+		
+	To supply a kerbal with enough oxygen with potatoes	we need 11.3 m^2
+	To supply a kerbal with enough food with potatoes we need 38.6 m^2		
+	To scrub a kerbals CO2	with potatoes we need 10.3 m^2
+	lets say a size 1 (1000L) green house is 4 m^2 
+			
+			
+			
+			
+			
+			
