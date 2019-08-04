@@ -15,6 +15,7 @@ The design concept is for it to be a Semi-realistic easyish stock looking and ba
 - Community Resource Pack
 - Community Tech Tree
 - DynamicBatteryStorage
+- Rational Resources
  
 
 ## Recommend/Integrated Mods
